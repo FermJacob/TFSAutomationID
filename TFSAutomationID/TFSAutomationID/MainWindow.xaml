@@ -1,0 +1,31 @@
+﻿<Window x:Class="TFSAutomationID.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TFSAutomationID"
+        mc:Ignorable="d"
+        Title="TFS Automation ID" Background="Gray" Height="225" Width="410" ResizeMode="CanMinimize">
+    <Grid>
+        <StackPanel>
+            <Grid Name="TFSGrid" HorizontalAlignment="Center" Margin="0,20">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Background="White" x:Name="TFSProject" TextAlignment="Center" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="TFS Project" VerticalAlignment="Top" Height="20" Width="160"/>
+                    <Button x:Name="ConnectButton" Click="ConnectButton_Click" Margin="20,0,0,0" Content="Connect" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="120"/>
+                </StackPanel>
+            </Grid>
+            <Grid Name="WorkItemGrid" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="WorkItemLabel"  Content="Work Item Number:" HorizontalAlignment="Left" HorizontalContentAlignment="Center"  VerticalAlignment="Top" Width="160"/>
+                    <TextBox x:Name="WorkItem" IsEnabled="False" HorizontalAlignment="Left" Height="23" Margin="20,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+                </StackPanel>
+            </Grid>
+            <Grid Name="ExecuteGrid" HorizontalAlignment="Center" Margin="0,20">
+                <Button x:Name="ExecuteButton" IsEnabled="False" Click="ExecuteButton_Click" Content="Execute" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75"/>
+            </Grid>
+            <Grid Name="GUIDGrid" HorizontalAlignment="Center">
+                <TextBox Background="White" x:Name="GUIDTextBox" HorizontalAlignment="Left" IsReadOnly="True" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="305" Visibility="Visible"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>
