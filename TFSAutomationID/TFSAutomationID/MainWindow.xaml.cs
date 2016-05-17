@@ -10,6 +10,7 @@ using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace TFSAutomationID
 {
@@ -49,15 +50,17 @@ namespace TFSAutomationID
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             TeamProjectPicker tpp = new TeamProjectPicker(TeamProjectPickerMode.SingleProject, false);
-            tpp.ShowDialog();
-
-            this.tfs = tpp.SelectedTeamProjectCollection;
-            this.teamProject = tpp.SelectedProjects[0].Name;
-            TFSProject.Text = this.teamProject;
-            WorkItem.IsEnabled = true;
-            ExecuteButton.IsEnabled = true;
-            ITestManagementService test_service = (ITestManagementService)this.tfs.GetService(typeof(ITestManagementService));
-            this.testManagementTeamProject = test_service.GetTeamProject(tpp.SelectedProjects[0].Name);
+            var result = tpp.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                this.tfs = tpp.SelectedTeamProjectCollection;
+                this.teamProject = tpp.SelectedProjects[0].Name;
+                TFSProject.Text = this.teamProject;
+                WorkItem.IsEnabled = true;
+                ExecuteButton.IsEnabled = true;
+                ITestManagementService test_service = (ITestManagementService)this.tfs.GetService(typeof(ITestManagementService));
+                this.testManagementTeamProject = test_service.GetTeamProject(tpp.SelectedProjects[0].Name);
+            }
         }
 
         /// <summary>
@@ -67,6 +70,7 @@ namespace TFSAutomationID
         /// <param name="e">Event arguments</param>
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
+            this.ClearFields();
             if (string.IsNullOrEmpty(WorkItem.Text) || !Regex.IsMatch(WorkItem.Text, @"^\d+$") || Convert.ToInt32(WorkItem.Text) < 0)
             {
                 MessageBox.Show("Please enter a valid work item");
@@ -88,15 +92,36 @@ namespace TFSAutomationID
                     return;
                 }
 
-                if (testCase.Implementation == null)
+                if (testCase == null)
                 {
-                    MessageBox.Show("Work item is not linked to an automated test case", "Notice", MessageBoxButton.OK);
+                    MessageBox.Show("Work item is not a test case", "Notice", MessageBoxButton.OK);
                     return;
                 }
 
-                string guidID = ((ITmiTestImplementation)testCase.Implementation).TestId.ToString();
-                GUIDTextBox.Text = guidID;
+                ITmiTestImplementation testImplementation = testCase.Implementation as ITmiTestImplementation;
+                ComboBoxItem item = (ComboBoxItem)this.AutomationStatus.FindName(testCase.WorkItem.Fields["Automation status"].Value.ToString().Replace(" ", string.Empty));
+                AutomationStatus.SelectedItem = item;
+
+                if (testImplementation != null)
+                {
+                    GUIDTextBox.Text = testImplementation.TestId.ToString();
+                    TestName.Text = testImplementation.TestName;
+                    TestStorage.Text = testImplementation.Storage;
+                    TestType.Text = string.IsNullOrEmpty(testImplementation.TestType) ? "Unit Test" : testImplementation.TestType;
+                }
             }
+        }
+
+        /// <summary>
+        /// Method to clear fields
+        /// </summary>
+        private void ClearFields()
+        {
+            GUIDTextBox.Text = string.Empty;
+            TestName.Text = string.Empty;
+            TestStorage.Text = string.Empty;
+            TestType.Text = string.Empty;
+            AutomationStatus.SelectedIndex = -1;
         }
     }
 }

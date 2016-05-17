@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TFSAutomationID"
         mc:Ignorable="d"
-        Title="TFS Automation ID" Background="Gray" Height="225" Width="410" ResizeMode="CanMinimize">
+        Title="TFS Automation ID" Background="Gray" Height="319" Width="474.5" ResizeMode="CanMinimize">
     <Grid>
         <StackPanel>
             <Grid Name="TFSGrid" HorizontalAlignment="Center" Margin="0,20">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Background="White" x:Name="TFSProject" TextAlignment="Center" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="TFS Project" VerticalAlignment="Top" Height="20" Width="160"/>
+                    <TextBlock Background="White" x:Name="TFSProject" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="TFS Project" VerticalAlignment="Top" Height="20" Width="160"/>
                     <Button x:Name="ConnectButton" Click="ConnectButton_Click" Margin="20,0,0,0" Content="Connect" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="120"/>
                 </StackPanel>
             </Grid>
@@ -23,8 +23,38 @@
             <Grid Name="ExecuteGrid" HorizontalAlignment="Center" Margin="0,20">
                 <Button x:Name="ExecuteButton" IsEnabled="False" Click="ExecuteButton_Click" Content="Execute" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75"/>
             </Grid>
-            <Grid Name="GUIDGrid" HorizontalAlignment="Center">
-                <TextBox Background="White" x:Name="GUIDTextBox" HorizontalAlignment="Left" IsReadOnly="True" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="305" Visibility="Visible"/>
+            <Grid IsEnabled="True" Name="GUIDGrid" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Test ID: " VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Background="White" x:Name="GUIDTextBox" IsEnabled="False" HorizontalAlignment="Left" IsReadOnly="True" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="305" Visibility="Visible"/>
+
+
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Test Name: " VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Background="White" x:Name="TestName"  IsEnabled="False" HorizontalAlignment="Left" IsReadOnly="True" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="305" Visibility="Visible"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Test Storage: " VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Background="White" x:Name="TestStorage" IsEnabled="False"  HorizontalAlignment="Left" IsReadOnly="True" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="305" Visibility="Visible"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="Test Type: " VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="3" x:Name="TestType" Text="Unit Test" IsEnabled="False" />
+
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="Automation Status: " VerticalAlignment="Center"/>
+                <ComboBox Grid.Column="1" SelectedValuePath="Context"  Grid.Row="4" x:Name="AutomationStatus" IsEnabled="False" IsReadOnly="True" IsEditable="False" IsHitTestVisible="False" Focusable="False" >
+                    <ComboBoxItem Name="NotAutomated" Content="Not Automated"/>
+                    <ComboBoxItem Name="Planned" Content="Planned"/>
+                    <ComboBoxItem Name="Automated" Content="Automated"/>
+                </ComboBox>
             </Grid>
         </StackPanel>
     </Grid>
